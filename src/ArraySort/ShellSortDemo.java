@@ -1,7 +1,7 @@
 package ArraySort;
 
 public class ShellSortDemo {
-    static int max=80000;
+    static int max=8000000;
     public static void main(String[] args) {
         int[] array=new int[max];
         for (int i = 0; i < array.length; i++) {
