@@ -7,19 +7,19 @@ import java.util.concurrent.CancellationException;
 
 public class ArrayQueueDemo {
     public static void main(String[] args) {
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("请输入队列长度：");
         int maxSize = scanner.nextInt();
-        ArrayQueue arrayQueue=new ArrayQueue(maxSize);
-        boolean loop=true;
-        while (loop){
+        ArrayQueue arrayQueue = new ArrayQueue(maxSize);
+        boolean loop = true;
+        while (loop) {
             System.out.println("s(显示队列数据)");
             System.out.println("e(退出)");
             System.out.println("a(添加队列数据)");
             System.out.println("g(出队列)");
             System.out.println("h(显示头部数据)");
             char key = scanner.next().charAt(0);
-            switch (key){
+            switch (key) {
                 case 's':
                     arrayQueue.showQueue();
                     break;
@@ -36,7 +36,7 @@ public class ArrayQueueDemo {
                     break;
                 case 'e':
                     scanner.close();
-                    loop=false;
+                    loop = false;
                     break;
                 default:
                     System.out.println("输入错误，情重新输入:");
