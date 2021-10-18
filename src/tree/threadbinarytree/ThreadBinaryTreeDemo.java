@@ -1,10 +1,8 @@
-package tree;
+package tree.threadbinarytree;
 
-import com.sun.org.apache.xerces.internal.impl.dv.dtd.NMTOKENDatatypeValidator;
-
-public class BinaryTreeDemo {
+public class ThreadBinaryTreeDemo {
     public static void main(String[] args) {
-        BinaryTree bt = new BinaryTree();
+        ThreadBinaryTre threadBinaryTre=new ThreadBinaryTre();
         HeroNode root = new HeroNode(1, "宋江");
         HeroNode node2 = new HeroNode(2, "卢俊义");
         HeroNode node3 = new HeroNode(3, "吴用");
@@ -12,24 +10,24 @@ public class BinaryTreeDemo {
         HeroNode node5 = new HeroNode(5, "扈三娘");
         HeroNode node6 = new HeroNode(6, "杨志");
         HeroNode node7 = new HeroNode(7, "鲁智深");
-        //先手动创建二叉树，后面学习递归方式创建二叉树
-        bt.setRoot(root);
+        threadBinaryTre.setRoot(root);
         root.setLeft(node2);
         root.setRight(node3);
         node2.setLeft(node4);
         node2.setRight(node5);
         node3.setLeft(node6);
         node3.setRight(node7);
-        bt.preOrder();
-//        System.out.println(bt.preSearch(3));
-//        System.out.println(bt.inOrderSearch(2));
-//        System.out.println(bt.postOrderSearch(3));
-        bt.delNode(3);
-        bt.preOrder();
+        threadBinaryTre.threadedNodes();
+        System.out.println(node4.getRight());//node2
+        System.out.println(node5.getLeft());//node2
+        System.out.println(node5.getRight());//node1
+        System.out.println(node6.getLeft());
+        System.out.println(node6.getRight());
+        System.out.println(node7.getLeft());
+        System.out.println(node7.getRight());
     }
 }
-
-class BinaryTree {
+class ThreadBinaryTre{
     private HeroNode root;
     private HeroNode pre;
     public void setRoot(HeroNode root) {
@@ -39,7 +37,6 @@ class BinaryTree {
     public HeroNode getRoot() {
         return root;
     }
-
     //先序遍历
     public void preOrder() {
         if (this.root != null) {
@@ -110,6 +107,13 @@ class BinaryTree {
         }
         System.out.println("未找到该结点");
     }
+    public void threadedNodes(){
+        if (root==null){
+            System.out.println("二叉树为空");
+            return;
+        }
+        threadedNodes(root);
+    }
     //中序线索化二叉树
     public void threadedNodes(HeroNode node){
         if (node==null){
@@ -128,8 +132,6 @@ class BinaryTree {
         threadedNodes(node.getRight());
     }
 }
-
-//先创建HerNode
 class HeroNode {
     private int num;
     private String name;
