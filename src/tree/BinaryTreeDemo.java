@@ -32,6 +32,7 @@ public class BinaryTreeDemo {
 class BinaryTree {
     private HeroNode root;
     private HeroNode pre;
+
     public void setRoot(HeroNode root) {
         this.root = root;
     }
@@ -80,7 +81,7 @@ class BinaryTree {
     public HeroNode inOrderSearch(int num) {
         HeroNode res = root.inOrderSearch(num);
         if (res == null) {
-            System.out.println("未找到");
+            System.out.println(" 未找到");
         }
         return res;
     }
@@ -110,21 +111,22 @@ class BinaryTree {
         }
         System.out.println("未找到该结点");
     }
+
     //中序线索化二叉树
-    public void threadedNodes(HeroNode node){
-        if (node==null){
+    public void threadedNodes(HeroNode node) {
+        if (node == null) {
             return;
         }
         threadedNodes(node.getLeft());
-        if (node.getLeft()==null){
+        if (node.getLeft() == null) {
             node.setLeft(pre);
             node.setLeftType(1);
         }
-        if (pre!=null&&pre.getRight()==null){
+        if (pre != null && pre.getRight() == null) {
             pre.setRight(node);
             pre.setRightType(1);
         }
-        pre=node;//更新前驱结点为当前结点
+        pre = node;//更新前驱结点为当前结点
         threadedNodes(node.getRight());
     }
 }
