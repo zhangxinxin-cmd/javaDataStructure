@@ -1,6 +1,4 @@
 package tree;
-
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.Arrays;
 
 public class HeapSortDemo {

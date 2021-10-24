@@ -1,8 +1,9 @@
+/*线索化二叉树*/
 package tree.threadbinarytree;
 
 public class ThreadBinaryTreeDemo {
     public static void main(String[] args) {
-        ThreadBinaryTre threadBinaryTre=new ThreadBinaryTre();
+        ThreadBinaryTre threadBinaryTre = new ThreadBinaryTre();
         HeroNode root = new HeroNode(1, "宋江");
         HeroNode node2 = new HeroNode(2, "卢俊义");
         HeroNode node3 = new HeroNode(3, "吴用");
@@ -27,9 +28,11 @@ public class ThreadBinaryTreeDemo {
         System.out.println(node7.getRight());
     }
 }
-class ThreadBinaryTre{
+
+class ThreadBinaryTre {
     private HeroNode root;
     private HeroNode pre;
+
     public void setRoot(HeroNode root) {
         this.root = root;
     }
@@ -37,6 +40,7 @@ class ThreadBinaryTre{
     public HeroNode getRoot() {
         return root;
     }
+
     //先序遍历
     public void preOrder() {
         if (this.root != null) {
@@ -107,31 +111,34 @@ class ThreadBinaryTre{
         }
         System.out.println("未找到该结点");
     }
-    public void threadedNodes(){
-        if (root==null){
+
+    public void threadedNodes() {
+        if (root == null) {
             System.out.println("二叉树为空");
             return;
         }
         threadedNodes(root);
     }
+
     //中序线索化二叉树
-    public void threadedNodes(HeroNode node){
-        if (node==null){
+    public void threadedNodes(HeroNode node) {
+        if (node == null) {
             return;
         }
         threadedNodes(node.getLeft());
-        if (node.getLeft()==null){
+        if (node.getLeft() == null) {
             node.setLeft(pre);
             node.setLeftType(1);
         }
-        if (pre!=null&&pre.getRight()==null){
+        if (pre != null && pre.getRight() == null) {
             pre.setRight(node);
             pre.setRightType(1);
         }
-        pre=node;//更新前驱结点为当前结点
+        pre = node;//更新前驱结点为当前结点
         threadedNodes(node.getRight());
     }
 }
+
 class HeroNode {
     private int num;
     private String name;
