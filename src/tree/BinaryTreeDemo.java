@@ -1,6 +1,11 @@
 package tree;
 
-import com.sun.org.apache.xerces.internal.impl.dv.dtd.NMTOKENDatatypeValidator;
+import com.sun.jmx.remote.internal.ArrayQueue;
+
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 public class BinaryTreeDemo {
     public static void main(String[] args) {
@@ -24,8 +29,17 @@ public class BinaryTreeDemo {
 //        System.out.println(bt.preSearch(3));
 //        System.out.println(bt.inOrderSearch(2));
 //        System.out.println(bt.postOrderSearch(3));
-        bt.delNode(3);
-        bt.preOrder();
+//        bt.delNode(3);
+//        bt.preOrder();
+        System.out.println("================");
+        System.out.println("非递归中序遍历：");
+        bt.InCircleOrder();
+        System.out.println("================");
+        System.out.println("递归中序遍历");
+        bt.InOrder();
+        System.out.println("================");
+        System.out.println("层次遍历");
+        bt.floorOrder();
     }
 }
 
@@ -66,6 +80,24 @@ class BinaryTree {
         } else {
             System.out.println("二叉树为空，无法遍历");
         }
+    }
+
+    //非递归中序遍历
+    public void InCircleOrder() {
+        if (root == null) {
+            System.out.println("此二叉树为空");
+            return;
+        }
+        root.InCircleOrder();
+    }
+
+    //层次遍历
+    public void floorOrder() {
+        if (root == null) {
+            System.out.println("此二叉树为空");
+            return;
+        }
+        root.floorOrder();
     }
 
     //先序查找
@@ -112,23 +144,6 @@ class BinaryTree {
         System.out.println("未找到该结点");
     }
 
-    //中序线索化二叉树
-    public void threadedNodes(HeroNode node) {
-        if (node == null) {
-            return;
-        }
-        threadedNodes(node.getLeft());
-        if (node.getLeft() == null) {
-            node.setLeft(pre);
-            node.setLeftType(1);
-        }
-        if (pre != null && pre.getRight() == null) {
-            pre.setRight(node);
-            pre.setRightType(1);
-        }
-        pre = node;//更新前驱结点为当前结点
-        threadedNodes(node.getRight());
-    }
 }
 
 //先创建HerNode
@@ -137,24 +152,6 @@ class HeroNode {
     private String name;
     private HeroNode left;
     private HeroNode right;
-    private int leftType;
-    private int rightType;
-
-    public int getLeftType() {
-        return leftType;
-    }
-
-    public void setLeftType(int leftType) {
-        this.leftType = leftType;
-    }
-
-    public int getRightType() {
-        return rightType;
-    }
-
-    public void setRightType(int rightType) {
-        this.rightType = rightType;
-    }
 
     public HeroNode(int num, String name) {
         this.num = num;
@@ -236,6 +233,38 @@ class HeroNode {
         System.out.println(this);
     }
 
+    //非递归中序遍历
+    public void InCircleOrder() {
+        Stack<HeroNode> stack = new Stack<>();
+        HeroNode node = this;
+        do {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            System.out.println(node);
+            node = node.right;
+        } while (!stack.empty() || node != null);
+
+    }
+
+    //层次遍历(就是从根节点一层一层地遍历此二叉树)
+    public void floorOrder() {
+        LinkedList<HeroNode> list = new LinkedList<>();
+        list.add(this);
+        while (!list.isEmpty()) {
+            HeroNode remove = list.remove();
+            System.out.println(remove);
+            if (remove.left != null) {
+                list.add(remove.left);
+            }
+            if (remove.right != null) {
+                list.add(remove.right);
+            }
+        }
+    }
+
     //先序查找
     public HeroNode preOrderSearch(int num) {
         if (this.num == num) {
@@ -292,6 +321,7 @@ class HeroNode {
         }
         return null;
     }
+
 
     public boolean delNode(int num) {
         boolean res = false;
