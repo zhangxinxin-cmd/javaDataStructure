@@ -40,6 +40,12 @@ public class BinaryTreeDemo {
         System.out.println("================");
         System.out.println("层次遍历");
         bt.floorOrder();
+        System.out.println("================");
+        System.out.println("节点数：");
+        System.out.println(bt.nodeCount());
+        System.out.println("===============");
+        System.out.println("叶子节点数：");
+        System.out.println(bt.leadCount());
     }
 }
 
@@ -144,6 +150,21 @@ class BinaryTree {
         System.out.println("未找到该结点");
     }
 
+    //统计结点数
+    public int nodeCount() {
+        if (root == null) {
+            return 0;
+        }
+        return root.nodeCount();
+    }
+
+    //统计叶子节点数
+    public int leadCount() {
+        if (root == null) {
+            return 0;
+        }
+        return root.LeadCount();
+    }
 }
 
 //先创建HerNode
@@ -322,7 +343,7 @@ class HeroNode {
         return null;
     }
 
-
+    //删除结点
     public boolean delNode(int num) {
         boolean res = false;
         if (this.left != null && this.left.num == num) {
@@ -344,5 +365,35 @@ class HeroNode {
             return res;
         }
         return false;
+    }
+
+    //统计结点数
+    public int nodeCount() {
+        if (this.left == null && this.right == null) {
+            return 1;
+        }
+        int count = 1;
+        if (this.left != null) {
+            count += this.left.nodeCount();
+        }
+        if (this.right != null) {
+            count += this.right.nodeCount();
+        }
+        return count;
+    }
+
+    //统计叶子节点数
+    public int LeadCount() {
+        if (this.left == null && this.right == null) {
+            return 1;
+        }
+        int count = 0;
+        if (this.left != null) {
+            count += this.left.LeadCount();
+        }
+        if (this.right != null) {
+            count += this.right.LeadCount();
+        }
+        return count;
     }
 }
