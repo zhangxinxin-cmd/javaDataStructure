@@ -1,11 +1,10 @@
 package tree;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
-
-import java.awt.*;
+import javax.jnlp.IntegrationService;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 import java.util.Stack;
+import java.util.Vector;
 
 public class BinaryTreeDemo {
     public static void main(String[] args) {
@@ -46,6 +45,18 @@ public class BinaryTreeDemo {
         System.out.println("===============");
         System.out.println("叶子节点数：");
         System.out.println(bt.leadCount());
+        System.out.println("从根节点到叶子节点路径：");
+        System.out.println(bt.waySum());
+        System.out.println("左叶子节点数量：");
+        System.out.println(bt.sumOfLeftLeaves());
+        System.out.println("左叶子结点值之和：");
+        System.out.println(bt.sumOfLeftLeavesValues());
+        System.out.println(bt.exitWayOfSum(11));
+        System.out.println("翻转二叉树前：");
+        bt.floorOrder();
+        System.out.println("翻转二叉树后：");
+        bt.exchange();
+        bt.floorOrder();
     }
 }
 
@@ -164,6 +175,51 @@ class BinaryTree {
             return 0;
         }
         return root.LeadCount();
+    }
+
+    //返回从根节点到叶子节点的所有结点
+    public List<LinkedList<Integer>> waySum() {
+        if (root == null) {
+            return null;
+        }
+        LinkedList<Integer> list = new LinkedList<>();
+        LinkedList<LinkedList<Integer>> lists = new LinkedList<>();
+        root.traversal(lists, list);
+        return lists;
+    }
+
+    //返回左叶子节点数
+    public int sumOfLeftLeaves() {
+        if (root == null) {
+            return 0;
+        }
+        return root.sumOfLeftLeaves();
+    }
+
+    public int sumOfLeftLeavesValues() {
+        if (root == null) {
+            return 0;
+        }
+        return root.sumOfLeftLeavesValues();
+    }
+
+    //给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和
+    public boolean exitWayOfSum(int target) {
+        if (root == null) {
+            return false;
+        }
+        return root.exitWayOfSum(target);
+    }
+    //翻转二叉树
+    public void exchange(){
+        if (root==null){
+            try {
+                throw new Exception("二叉树为空树");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        root.exchange();
     }
 }
 
@@ -395,5 +451,132 @@ class HeroNode {
             count += this.right.LeadCount();
         }
         return count;
+    }
+
+    //判断一个二叉树是否对称，用递归实现
+    public boolean compare(HeroNode left, HeroNode right) {
+        if ((left == null && right == null)) {
+            return true;
+        }
+        if ((left != null && right != null) && (left.num == right.num)) {
+            return compare(left.left, right.right) && compare(left.right, right.left);
+        }
+        return false;
+    }
+
+    //判断一个二叉树是否对称，用迭代实现
+    public boolean compare2(HeroNode root) {
+        LinkedList<HeroNode> list = new LinkedList<>();
+        list.add(root.left);
+        list.add(root.right);
+        while (!list.isEmpty()) {
+            HeroNode leftNode = list.remove();
+            HeroNode rightNode = list.remove();
+            if (leftNode == null && rightNode == null) {
+                continue;
+            }
+            if ((leftNode != null && rightNode != null) && (leftNode.num == rightNode.num)) {
+                list.add(leftNode.left);
+                list.add(rightNode.right);
+                list.add(leftNode.right);
+                list.add(rightNode.left);
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //找到从根节点到叶子节点的所有路径
+    public void traversal(LinkedList<LinkedList<Integer>> lists, LinkedList<Integer> list) {
+        list.add(this.num);
+        if (this.left == null && this.right == null) {
+            lists.add(new LinkedList<>(list));
+        }
+        if (this.left != null) {
+            left.traversal(lists, list);
+            list.removeLast();
+        }
+        if (this.right != null) {
+            right.traversal(lists, list);
+            list.removeLast();
+        }
+    }
+
+    //求左叶子节点数
+    public int sumOfLeftLeaves() {
+        if (this.left == null && this.right == null) {
+            return 0;
+        }
+        int sum = 0;
+        if (this.left != null && this.left.left == null && this.left.right == null) {
+            sum += 1;
+        }
+        if (this.left != null) {
+            sum += left.sumOfLeftLeaves();
+        }
+        if (this.right != null) {
+            sum += right.sumOfLeftLeaves();
+        }
+        return sum;
+    }
+
+    //求左叶子之和
+    public int sumOfLeftLeavesValues() {
+        if (this.left == null && this.right == null) {
+            return 0;
+        }
+        int sum = 0;
+        if (this.left != null && this.left.left == null && this.left.right == null) {
+            sum += this.left.getNum();
+        }
+        if (this.left != null) {
+            sum += left.sumOfLeftLeavesValues();
+        }
+        if (this.right != null) {
+            sum += right.sumOfLeftLeavesValues();
+        }
+        return sum;
+    }
+
+    //给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和
+    public boolean exitWayOfSum(int target, int sum) {
+        if (this.left == null && this.right == null && (sum + this.num) == target) {
+            return true;
+        }
+        sum += this.num;
+        if (left != null && left.exitWayOfSum(target, sum)) {//如果为真，说明已找到这条路径，返回true，所以跟着返回真
+            return true;
+        } else if (right != null && right.exitWayOfSum(target, sum)) {//说明上一条策略行不通，执行
+            return true;
+        }
+        return false;
+    }
+
+    public boolean exitWayOfSum(int target) {
+        target -= this.num;
+        if (this.left == null && this.right == null && target == 0) {
+            return true;
+        }
+        if (left != null && left.exitWayOfSum(target)) {
+            return true;
+        }
+        return right!=null&&right.exitWayOfSum(target);
+    }
+    public void exchange(){
+        if (this.left==null&&this.right==null){
+            return;
+        }
+        if (this.left!=null){
+            left.exchange();
+        }
+        if (this.right!=null){
+            right.exchange();
+        }
+        HeroNode temp;
+        temp=left;
+        left=right;
+        right=temp;
+
     }
 }
