@@ -25,19 +25,21 @@ class ArrayBinaryTree {
             preOrder(2 * index + 2);
         }
     }
+
     //中序遍历
-    public void InOrder(int index){
-        if (index<array.length){
-            InOrder(2*index+1);
+    public void InOrder(int index) {
+        if (index < array.length) {
+            InOrder(2 * index + 1);
             System.out.println(array[index]);
-            InOrder(2*index+2);
+            InOrder(2 * index + 2);
         }
     }
+
     //后序遍历
-    public void postOrder(int index){
-        if (index<array.length){
-            postOrder(2*index+1);
-            postOrder(2*index+2);
+    public void postOrder(int index) {
+        if (index < array.length) {
+            postOrder(2 * index + 1);
+            postOrder(2 * index + 2);
             System.out.println(array[index]);
         }
     }

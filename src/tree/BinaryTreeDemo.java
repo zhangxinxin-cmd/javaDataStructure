@@ -210,9 +210,10 @@ class BinaryTree {
         }
         return root.exitWayOfSum(target);
     }
+
     //翻转二叉树
-    public void exchange(){
-        if (root==null){
+    public void exchange() {
+        if (root == null) {
             try {
                 throw new Exception("二叉树为空树");
             } catch (Exception e) {
@@ -561,22 +562,23 @@ class HeroNode {
         if (left != null && left.exitWayOfSum(target)) {
             return true;
         }
-        return right!=null&&right.exitWayOfSum(target);
+        return right != null && right.exitWayOfSum(target);
     }
-    public void exchange(){
-        if (this.left==null&&this.right==null){
+
+    public void exchange() {
+        if (this.left == null && this.right == null) {
             return;
         }
-        if (this.left!=null){
+        if (this.left != null) {
             left.exchange();
         }
-        if (this.right!=null){
+        if (this.right != null) {
             right.exchange();
         }
         HeroNode temp;
-        temp=left;
-        left=right;
-        right=temp;
+        temp = left;
+        left = right;
+        right = temp;
 
     }
 }

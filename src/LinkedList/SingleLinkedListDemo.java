@@ -4,24 +4,35 @@ import java.util.Stack;
 
 public class SingleLinkedListDemo {
     public static void main(String[] args) {
-        HeroNode hero1 = new HeroNode(1, "宋江", "及时雨");
-        HeroNode hero2 = new HeroNode(2, "卢俊义", "玉麒麟");
+        HeroNode hero1 = new HeroNode(2, "宋江", "及时雨");
+        HeroNode hero2 = new HeroNode(1, "卢俊义", "玉麒麟");
         HeroNode hero3 = new HeroNode(3, "林冲", "豹子头");
-        HeroNode newHero = new HeroNode(1, "卢俊义", "玉麒麟");
+        HeroNode hero4 = new HeroNode(0, "林冲", "豹子头");
+        HeroNode newHero = new HeroNode(1, "卢", "玉麒麟");
+        HeroNode hero5 = new HeroNode(5, "林", "林");
+        HeroNode hero6 = new HeroNode(-1, "林", "林");
         SingleLinkedList singleLinkedList = new SingleLinkedList();
         singleLinkedList.add(hero1);
         singleLinkedList.add(hero2);
         singleLinkedList.add(hero3);
+        singleLinkedList.add(hero5);
+        singleLinkedList.add(hero6);
+        singleLinkedList.add(hero4);
+        System.out.println(singleLinkedList.getLastHeroNode2(6));
 //        singleLinkedList.showList();
 //        singleLinkedList.deleteList(2);
         System.out.println();
+
         /*singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
         singleLinkedList.addByOrder(hero1);
         singleLinkedList.deleteList(3);*/
 //        singleLinkedList.showList();
 //        Turn(singleLinkedList.getHead());
-        reversePrint(singleLinkedList.getHead());
+        singleLinkedList.showList();
+//        singleLinkedList.quickSort();
+        System.out.println("====================");
+//        singleLinkedList.showList();
     }
 
 
@@ -94,6 +105,9 @@ class HeroNode {
     public String name;
     public String nickName;
     public HeroNode next;//指向下一个节点
+
+    public HeroNode() {
+    }
 
     public HeroNode(int no, String name, String nickName) {
         this.no = no;
@@ -196,7 +210,22 @@ class SingleLinkedList {
         }
         return temp;
     }
-
+    public HeroNode getLastHeroNode2(int lastN){
+        HeroNode pre=head;
+        HeroNode rear=head;
+        if (lastN<=0){
+            throw new RuntimeException("lastN<=0");
+        }
+        for (int i = 0; i < lastN; i++) {
+            rear=rear.next;
+            if (rear==null) throw new RuntimeException("lastN超出链表长度:"+getLength());
+        }
+        while (rear!=null){
+            rear=rear.next;
+            pre=pre.next;
+        }
+        return pre;
+    }
     //显示链表(遍历)
     public void showList() {
         if (head.next == null) {
@@ -208,5 +237,47 @@ class SingleLinkedList {
             System.out.println(temp);
             temp = temp.next;
         }
+    }
+
+    private HeroNode getEnd() {
+        HeroNode end = new HeroNode();
+        end.next = head.next;
+        while (end.next != null) {
+            end = end.next;
+        }
+        return end;
+    }
+
+    public void quickSort() {
+        quickSort(head, getEnd());
+    }
+
+    //链表快排
+    public void quickSort(HeroNode head, HeroNode end) {
+        if (head.next == end) {
+            return;
+        }
+        HeroNode p = head.next;
+        HeroNode p2 = head.next;
+        HeroNode p1 = head.next;//初始值设为首元节点
+        while (p2 != end) {
+            if (p2.next.no < p.no) {
+                HeroNode temp1 = p2.next.next;
+                HeroNode temp2 = head.next;
+                head.next = p2.next;
+                p1.next = temp1;
+                head.next.next = temp2;
+                if (head.next == end) {
+                    end = p2;//更新尾节点，如果尾节点小于p.no，则尾节点会成为首元节点,此时必须跟新尾节\\\\\\\\\\点为p2
+                }
+            } else {
+                p2 = p2.next;
+                p1 = p2;
+            }
+        }
+        HeroNode newNode = new HeroNode();
+        newNode.next = p.next;//新建一个类似于head结构的头节点，就是本身不存储值，但是next存储的是首元节点的地址
+        quickSort(head, p);
+        quickSort(newNode, end);
     }
 }

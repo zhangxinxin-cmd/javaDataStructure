@@ -6,10 +6,12 @@ import java.util.Stack;
 
 public class Calculator {
     private String suffixExpression;
+
     public Calculator(String expression) {
         suffixExpression = toSuffix(expression);
     }
-//逆波兰计算
+
+    //逆波兰计算
     public int getResult() {
         ArrayList<String> list = getList(suffixExpression);
         Stack<Integer> numStack = new Stack<>();
@@ -31,7 +33,8 @@ public class Calculator {
         }
         return numStack.pop();
     }
-//有中缀表达式得到后缀表达式
+
+    //有中缀表达式得到后缀表达式
     private String toSuffix(String expression) {
         StringBuilder stringBuilder = new StringBuilder();
         String[] strings = expression.split(" ");

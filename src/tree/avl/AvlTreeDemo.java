@@ -1,12 +1,10 @@
 package tree.avl;
 
-import javafx.scene.transform.Rotate;
-
-import java.util.HashMap;
 
 public class AvlTreeDemo {
     public static void main(String[] args) {
         AvlTree avlTree = new AvlTree();
+        avlTree.add(new Node(3));
 //        int[] array = {4, 3, 6, 5, 7, 8,1,6,24};
 //        int[] array = {10, 12, 8, 9, 7, 6};
         int[] array = {10, 11, 7, 6, 8, 9};
@@ -18,6 +16,10 @@ public class AvlTreeDemo {
         System.out.println("树高:" + avlTree.height());
         System.out.println("左子树高度:" + avlTree.getRoot().leftHeight());
         System.out.println("右子树高度:" + avlTree.getRoot().rightHeight());
+        String string = "张";
+        System.out.println(string.getBytes()[0]);
+        System.out.println(string.getBytes()[1]);
+        System.out.println((int) string.charAt(0));
     }
 }
 
